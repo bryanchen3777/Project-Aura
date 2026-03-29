@@ -6,7 +6,15 @@
 
 ---
 
+## ⚠️ IMPORTANT: Post Flair Required!
+
+**Every Reddit post MUST have post flair selected before posting!**
+
+---
+
 ## 1. r/LocalLLM
+
+**Post Flair:** [Project] ✅
 
 **Title:** [Project] Give your AI more than just logic — Give it an Aura (Emotional Plugin for AI Companions)
 
@@ -52,6 +60,8 @@ Would love your feedback on the architecture. Is this approach useful for your A
 
 ## 2. r/OpenSource
 
+**Post Flair:** [Project] ✅
+
 **Title:** We chose CC BY-NC-SA over MIT — A story about why we don't want corporations to own "AI emotional intelligence"
 
 **Post:**
@@ -93,6 +103,8 @@ What do you think?
 ---
 
 ## 3. r/SelfHosted
+
+**Post Flair:** [Project] or [Showcase] ✅
 
 **Title:** [Project] Local-only AI companion memory system — Zero cloud dependency, full privacy
 
