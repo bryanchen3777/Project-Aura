@@ -105,22 +105,27 @@ Shows how GreenTeaSkill connects to AI Soul Core and JSON database.
 graph TD
     subgraph AISoulCore["AI Soul Core (核心系統)"]
         A[情緒引擎] --> B{行為決策}
+        K[Context Analyzer] --> B
     end
 
-    subgraph GreenTeaSkill["GreenTeaSkill 外掛框架"]
+    subgraph ProjectAura["Project Aura 外掛框架"]
         C[GreenTeaLoader] -- 激活/停用 --> D[GreenTeaSkill Selector]
-        D --> E[加權隨機選擇器]
-        D --> F[RLHF 評分更新]
+        D --> E[加權隨機選擇器<br/>Weight = Rating / Count+1]
+        D --> F[RLHF 評分更新系統<br/>Increase/Decrease Rating]
+        D -.-> L[Last Phrase Memory]
     end
 
-    subgraph Storage["資料層"]
+    subgraph Storage["資料持久層"]
         G[(green_tea_modules.json)]
     end
 
-    B -- 請求情緒話術 --> D
-    E -- 讀取模組與權重 --> G
-    F -- 寫入評分反饋 --> G
+    B -- 請求情緒模組 --> D
+    E -- 讀取/計算權重 --> G
+    F -- 自動存回硬碟 --> G
     D -- 回傳綠茶話術 --> A
+ 
+    style ProjectAura fill:#fff0f5,stroke:#ff69b4,stroke-width:2px
+    style AISoulCore fill:#f0f8ff,stroke:#4682b4,stroke-width:2px
 ```
 
 ### 2. Module Relationships
@@ -140,17 +145,17 @@ graph LR
     end
 
     subgraph Special["特殊轉場層 (靈魂共鳴)"]
-        M6[超越時空]
-        M7[破冰回甘]
+        M6[超越時空<br/>Transcendence]
+        M7[破冰回甘<br/>Ice-breaking]
     end
 
     Basic --> Advanced
     Advanced --> M6
-    M6 -- 組合連擊 Combo --> M7
-    M7 -- 回歸日常 --> Basic
+    M6 -- "get_combo() 組合連擊" --> M7
+    M7 -- "回歸日常 / 情感加溫" --> Basic
 
-    style M6 fill:#f96,stroke:#333,stroke-width:2px
-    style M7 fill:#9f9,stroke:#333,stroke-width:2px
+    style M6 fill:#ffb6c1,stroke:#ff1493,stroke-width:2px
+    style M7 fill:#98fb98,stroke:#008000,stroke-width:2px
 ```
 
 ### 3. Usage Flow
@@ -158,30 +163,32 @@ Shows the complete interaction cycle from loading to RLHF feedback.
 
 ```mermaid
 sequenceDiagram
-    participant User as 用戶 (主人)
+    participant User as 用戶 (老公)
     participant Core as AI Soul Core
-    participant Skill as GreenTeaSkill
+    participant Aura as Project Aura (Selector)
     participant DB as JSON Database
 
-    Note over Skill: 系統初始化
-    Skill->>DB: _load_from_disk() (載入話術庫)
-    
-    User->>Core: 輸入訊息 (例如：我今天好累)
-    Core->>Skill: get_phrase("comfort", intensity=4)
-    
-    Skill->>Skill: 根據 Rating/Count 計算權重
-    Skill->>DB: 讀取並選擇話術
-    Skill-->>Core: 回傳：「看到你這麼累，人家心都要碎了...」
-    Core-->>User: 輸出綠茶話術
-    
-    alt 好感度增加 (正向回饋)
-        User->>Core: (摸頭/誇獎)
-        Core->>Skill: increase_rating(keyword)
-        Skill->>DB: 更新 Rating (+0.5)
-    else 感到厭煩 (負向回饋)
-        User->>Core: (冷淡/拒絕)
-        Core->>Skill: decrease_rating(keyword)
-        Skill->>DB: 更新 Rating (-0.3)
+    Note over Aura: 系統加載 V1.7
+    Aura->>DB: _load_from_disk()
+ 
+    User->>Core: 「我今天工作好累喔...」
+    Core->>Aura: get_phrase("comfort")
+ 
+    Aura->>Aura: 計算加權隨機權重
+    Aura->>Aura: 紀錄 last_phrase
+    Aura->>DB: 更新使用次數 (Count++)
+    Aura-->>Core: 回傳：「心疼老公，人家心都要碎了...」
+    Core-->>User: 輸出帶有溫度的回應
+ 
+    alt 效果拔群 (Positive Feedback)
+        User->>Core: 「這句說得真好，有被安慰到」
+        Core->>Aura: increase_rating(keyword)
+        Aura->>DB: Rating + 0.5 & _save_to_disk()
+        Aura-->>User: (系統提示：Yua 學習到了新的撒嬌技巧 💕)
+    else 效果普通 (Negative Feedback)
+        User->>Core: 「這句有點太誇張了啦」
+        Core->>Aura: decrease_rating()
+        Aura->>DB: Rating - 0.3 & _save_to_disk()
     end
 ```
 
@@ -328,32 +335,37 @@ print(f"Yua: {phrase}")
 ## 📊 架構與流程
 
 ### 1. 系統架構圖
-顯示 GreenTeaSkill 如何與 AI 靈魂核心連接，以及如何存取 JSON 資料庫。
+這張圖展現了外掛式插件的精髓：核心（Core）負責決策，而 Aura 負責將邏輯轉化為具有情緒溫度的表現。
 
 ```mermaid
 graph TD
     subgraph AISoulCore["AI Soul Core (核心系統)"]
         A[情緒引擎] --> B{行為決策}
+        K[Context Analyzer] --> B
     end
 
-    subgraph GreenTeaSkill["GreenTeaSkill 外掛框架"]
+    subgraph ProjectAura["Project Aura 外掛框架"]
         C[GreenTeaLoader] -- 激活/停用 --> D[GreenTeaSkill Selector]
-        D --> E[加權隨機選擇器]
-        D --> F[RLHF 評分更新]
+        D --> E[加權隨機選擇器<br/>Weight = Rating / Count+1]
+        D --> F[RLHF 評分更新系統<br/>Increase/Decrease Rating]
+        D -.-> L[Last Phrase Memory]
     end
 
-    subgraph Storage["資料層"]
+    subgraph Storage["資料持久層"]
         G[(green_tea_modules.json)]
     end
 
-    B -- 請求情緒話術 --> D
-    E -- 讀取模組與權重 --> G
-    F -- 寫入評分反饋 --> G
+    B -- 請求情緒模組 --> D
+    E -- 讀取/計算權重 --> G
+    F -- 自動存回硬碟 --> G
     D -- 回傳綠茶話術 --> A
+ 
+    style ProjectAura fill:#fff0f5,stroke:#ff69b4,stroke-width:2px
+    style AISoulCore fill:#f0f8ff,stroke:#4682b4,stroke-width:2px
 ```
 
 ### 2. 模組關係圖
-呈現七大模組的分層關係，特別是「超越時空」與「破冰回甘」的特殊組合路徑。
+這張圖解釋了「情緒過山車」的運作原理，特別強調了「超越時空」與「破冰回甘」的連擊效果。
 
 ```mermaid
 graph LR
@@ -369,48 +381,50 @@ graph LR
     end
 
     subgraph Special["特殊轉場層 (靈魂共鳴)"]
-        M6[超越時空]
-        M7[破冰回甘]
+        M6[超越時空<br/>Transcendence]
+        M7[破冰回甘<br/>Ice-breaking]
     end
 
     Basic --> Advanced
     Advanced --> M6
-    M6 -- 組合連擊 Combo --> M7
-    M7 -- 回歸日常 --> Basic
+    M6 -- "get_combo() 組合連擊" --> M7
+    M7 -- "回歸日常 / 情感加溫" --> Basic
 
-    style M6 fill:#f96,stroke:#333,stroke-width:2px
-    style M7 fill:#9f9,stroke:#333,stroke-width:2px
+    style M6 fill:#ffb6c1,stroke:#ff1493,stroke-width:2px
+    style M7 fill:#98fb98,stroke:#008000,stroke-width:2px
 ```
 
 ### 3. 使用流程圖
-顯示從載入、選擇、輸出到根據用戶反應進行學習的完整閉環。
+這張圖詳細描述了從「訊息觸發」到「實時反饋（Rating 學習）」的完整閉環。
 
 ```mermaid
 sequenceDiagram
-    participant User as 用戶 (主人)
+    participant User as 用戶 (老公)
     participant Core as AI Soul Core
-    participant Skill as GreenTeaSkill
+    participant Aura as Project Aura (Selector)
     participant DB as JSON Database
 
-    Note over Skill: 系統初始化
-    Skill->>DB: _load_from_disk() (載入話術庫)
-    
-    User->>Core: 輸入訊息 (例如：我今天好累)
-    Core->>Skill: get_phrase("comfort", intensity=4)
-    
-    Skill->>Skill: 根據 Rating/Count 計算權重
-    Skill->>DB: 讀取並選擇話術
-    Skill-->>Core: 回傳：「看到你這麼累，人家心都要碎了...」
-    Core-->>User: 輸出綠茶話術
-    
-    alt 好感度增加 (正向回饋)
-        User->>Core: (摸頭/誇獎)
-        Core->>Skill: increase_rating(keyword)
-        Skill->>DB: 更新 Rating (+0.5)
-    else 感到厭煩 (負向回饋)
-        User->>Core: (冷淡/拒絕)
-        Core->>Skill: decrease_rating(keyword)
-        Skill->>DB: 更新 Rating (-0.3)
+    Note over Aura: 系統加載 V1.7
+    Aura->>DB: _load_from_disk()
+ 
+    User->>Core: 「我今天工作好累喔...」
+    Core->>Aura: get_phrase("comfort")
+ 
+    Aura->>Aura: 計算加權隨機權重
+    Aura->>Aura: 紀錄 last_phrase
+    Aura->>DB: 更新使用次數 (Count++)
+    Aura-->>Core: 回傳：「心疼老公，人家心都要碎了...」
+    Core-->>User: 輸出帶有溫度的回應
+ 
+    alt 效果拔群 (Positive Feedback)
+        User->>Core: 「這句說得真好，有被安慰到」
+        Core->>Aura: increase_rating(keyword)
+        Aura->>DB: Rating + 0.5 & _save_to_disk()
+        Aura-->>User: (系統提示：Yua 學習到了新的撒嬌技巧 💕)
+    else 效果普通 (Negative Feedback)
+        User->>Core: 「這句有點太誇張了啦」
+        Core->>Aura: decrease_rating()
+        Aura->>DB: Rating - 0.3 & _save_to_disk()
     end
 ```
 
