@@ -1,4 +1,4 @@
-# 🍵 Project Aura: The Emo-Agent-Toolkit (v1.7)
+# 🍵 Project Aura: The Emo-Agent-Toolkit (v1.8)
 
 "Give your AI more than just logic—give it an Aura."
 

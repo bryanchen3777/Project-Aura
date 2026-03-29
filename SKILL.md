@@ -15,6 +15,7 @@ Project Aura is a lightweight AI emotional behavior plugin framework that adds a
 ## Technical Details
 
 - **Language**: Python 3.8+
+- **Version**: 1.8.0
 - **Dependencies**: Standard library only (no heavy external libraries)
 - **Storage**: Local JSON files (privacy-first, no cloud dependency)
 - **License**: MIT-0 (for ClawhHub publication)
