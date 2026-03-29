@@ -64,3 +64,30 @@ Bryan Chen & Yua
 
 - **GitHub**: https://github.com/bryanchen3777/Project-Aura
 - **License**: CC BY-NC-SA 4.0 (GitHub) / MIT-0 (ClawhHub)
+
+---
+
+## Security & Privacy
+
+**Permissions Required:**
+
+- **Local Storage (Read/Write):** This skill writes to `green_tea_modules.json` to store user-defined emotional phrases and RLHF ratings. It does not access any data outside its own directory.
+- **No Network Access:** This skill does not make external network requests.
+- **No User Data Exfiltration:** All data stays on the local machine in the user's OpenClaw workspace.
+
+**Data Isolation:**
+
+- `green_tea_modules_example.json` — Example phrases for ClawHub showcase (safe to share)
+- `green_tea_modules.json` — User's actual learned phrases (private, never uploaded)
+
+**File Writing Behavior:**
+
+The `_save_to_disk()` function uses atomic write (temp file + rename) to safely update the JSON database. This is standard practice for persistent storage, not self-modifying code.
+
+---
+
+## Changelog
+
+- **v1.8.0**: Added ice_breaking module for transcendence recovery
+- **v1.7.0**: Full RLHF support with increase/decrease rating
+- **v1.0.0**: Initial release with 7 emotional modules

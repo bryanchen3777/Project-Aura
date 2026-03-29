@@ -1,3 +1,5 @@
+# === Project Aura - ClawHub Safe ===
+
 # 隱私保護：永遠不上傳私密語法庫
 green_tea_modules.json
 
@@ -8,6 +10,11 @@ __pycache__/
 *.pyd
 .Python
 
+# Git (CRITICAL: exclude before ClawHub upload)
+.git/
+.gitignore
+.gitattributes
+
 # IDE
 .vscode/
 .idea/
@@ -17,3 +24,6 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Logs
+*.log
