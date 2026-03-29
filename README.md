@@ -30,6 +30,27 @@ Does your AI companion always respond too logically, too coldly? Project Aura do
 
 ---
 
+## 🎯 Works Best With: yua-memory
+
+**Want the complete AI companion experience?**
+
+Project Aura gives your AI a *soul* — emotional vocabulary and personality. But for true AI companions, you also need *heartbeat* — long-term memory and continuity.
+
+**Meet [yua-memory](https://github.com/bryanchen3777/yua-memory)** — an emotional-aware memory management system.
+
+Together, they create something special:
+
+| System | What it gives | Tagline |
+|--------|---------------|---------|
+| **Project Aura** | Emotional phrases & personality | "Give your AI a Soul" |
+| **yua-memory** | Long-term memory & continuity | "Give your AI a Heartbeat" |
+
+> 🍵 **"Give your AI more than just logic — give it an Aura AND a Heartbeat."**
+
+When used together, your AI doesn't just respond emotionally — it *remembers* why it felt that way, builds relationships over time, and evolves alongside its user.
+
+---
+
 ## 🚀 Installation
 
 ### 1. Clone the Project
