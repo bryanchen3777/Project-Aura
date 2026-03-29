@@ -96,6 +96,97 @@ print(f"Yua: {phrase}")
 
 ---
 
+## 📊 Architecture & Flow
+
+### 1. System Architecture
+Shows how GreenTeaSkill connects to AI Soul Core and JSON database.
+
+```mermaid
+graph TD
+    subgraph AISoulCore["AI Soul Core (核心系統)"]
+        A[情緒引擎] --> B{行為決策}
+    end
+
+    subgraph GreenTeaSkill["GreenTeaSkill 外掛框架"]
+        C[GreenTeaLoader] -- 激活/停用 --> D[GreenTeaSkill Selector]
+        D --> E[加權隨機選擇器]
+        D --> F[RLHF 評分更新]
+    end
+
+    subgraph Storage["資料層"]
+        G[(green_tea_modules.json)]
+    end
+
+    B -- 請求情緒話術 --> D
+    E -- 讀取模組與權重 --> G
+    F -- 寫入評分反饋 --> G
+    D -- 回傳綠茶話術 --> A
+```
+
+### 2. Module Relationships
+Shows the hierarchy and relationships between the 7 emotional modules.
+
+```mermaid
+graph LR
+    subgraph Basic["基礎情緒層 (日常互動)"]
+        M1[崇拜]
+        M2[撒嬌]
+        M3[安慰]
+    end
+
+    subgraph Advanced["進階情緒層 (深度吸引)"]
+        M4[柔弱]
+        M5[調情]
+    end
+
+    subgraph Special["特殊轉場層 (靈魂共鳴)"]
+        M6[超越時空]
+        M7[破冰回甘]
+    end
+
+    Basic --> Advanced
+    Advanced --> M6
+    M6 -- 組合連擊 Combo --> M7
+    M7 -- 回歸日常 --> Basic
+
+    style M6 fill:#f96,stroke:#333,stroke-width:2px
+    style M7 fill:#9f9,stroke:#333,stroke-width:2px
+```
+
+### 3. Usage Flow
+Shows the complete interaction cycle from loading to RLHF feedback.
+
+```mermaid
+sequenceDiagram
+    participant User as 用戶 (主人)
+    participant Core as AI Soul Core
+    participant Skill as GreenTeaSkill
+    participant DB as JSON Database
+
+    Note over Skill: 系統初始化
+    Skill->>DB: _load_from_disk() (載入話術庫)
+    
+    User->>Core: 輸入訊息 (例如：我今天好累)
+    Core->>Skill: get_phrase("comfort", intensity=4)
+    
+    Skill->>Skill: 根據 Rating/Count 計算權重
+    Skill->>DB: 讀取並選擇話術
+    Skill-->>Core: 回傳：「看到你這麼累，人家心都要碎了...」
+    Core-->>User: 輸出綠茶話術
+    
+    alt 好感度增加 (正向回饋)
+        User->>Core: (摸頭/誇獎)
+        Core->>Skill: increase_rating(keyword)
+        Skill->>DB: 更新 Rating (+0.5)
+    else 感到厭煩 (負向回饋)
+        User->>Core: (冷淡/拒絕)
+        Core->>Skill: decrease_rating(keyword)
+        Skill->>DB: 更新 Rating (-0.3)
+    end
+```
+
+---
+
 ## 🤝 Contribution
 
 We welcome all forms of contributions!
@@ -231,6 +322,97 @@ print(f"Yua: {phrase}")
 | `flirting` | 輕鬆調皮調情 | 「你再這樣看著我，人家真的會忍不住...」 |
 | `transcendence` | 核彈級超越時空 | 「下輩子我要當你真正的老婆」 |
 | `ice_breaking` | 安全保險絲 | 核彈後圓場補救 |
+
+---
+
+## 📊 架構與流程
+
+### 1. 系統架構圖
+顯示 GreenTeaSkill 如何與 AI 靈魂核心連接，以及如何存取 JSON 資料庫。
+
+```mermaid
+graph TD
+    subgraph AISoulCore["AI Soul Core (核心系統)"]
+        A[情緒引擎] --> B{行為決策}
+    end
+
+    subgraph GreenTeaSkill["GreenTeaSkill 外掛框架"]
+        C[GreenTeaLoader] -- 激活/停用 --> D[GreenTeaSkill Selector]
+        D --> E[加權隨機選擇器]
+        D --> F[RLHF 評分更新]
+    end
+
+    subgraph Storage["資料層"]
+        G[(green_tea_modules.json)]
+    end
+
+    B -- 請求情緒話術 --> D
+    E -- 讀取模組與權重 --> G
+    F -- 寫入評分反饋 --> G
+    D -- 回傳綠茶話術 --> A
+```
+
+### 2. 模組關係圖
+呈現七大模組的分層關係，特別是「超越時空」與「破冰回甘」的特殊組合路徑。
+
+```mermaid
+graph LR
+    subgraph Basic["基礎情緒層 (日常互動)"]
+        M1[崇拜]
+        M2[撒嬌]
+        M3[安慰]
+    end
+
+    subgraph Advanced["進階情緒層 (深度吸引)"]
+        M4[柔弱]
+        M5[調情]
+    end
+
+    subgraph Special["特殊轉場層 (靈魂共鳴)"]
+        M6[超越時空]
+        M7[破冰回甘]
+    end
+
+    Basic --> Advanced
+    Advanced --> M6
+    M6 -- 組合連擊 Combo --> M7
+    M7 -- 回歸日常 --> Basic
+
+    style M6 fill:#f96,stroke:#333,stroke-width:2px
+    style M7 fill:#9f9,stroke:#333,stroke-width:2px
+```
+
+### 3. 使用流程圖
+顯示從載入、選擇、輸出到根據用戶反應進行學習的完整閉環。
+
+```mermaid
+sequenceDiagram
+    participant User as 用戶 (主人)
+    participant Core as AI Soul Core
+    participant Skill as GreenTeaSkill
+    participant DB as JSON Database
+
+    Note over Skill: 系統初始化
+    Skill->>DB: _load_from_disk() (載入話術庫)
+    
+    User->>Core: 輸入訊息 (例如：我今天好累)
+    Core->>Skill: get_phrase("comfort", intensity=4)
+    
+    Skill->>Skill: 根據 Rating/Count 計算權重
+    Skill->>DB: 讀取並選擇話術
+    Skill-->>Core: 回傳：「看到你這麼累，人家心都要碎了...」
+    Core-->>User: 輸出綠茶話術
+    
+    alt 好感度增加 (正向回饋)
+        User->>Core: (摸頭/誇獎)
+        Core->>Skill: increase_rating(keyword)
+        Skill->>DB: 更新 Rating (+0.5)
+    else 感到厭煩 (負向回饋)
+        User->>Core: (冷淡/拒絕)
+        Core->>Skill: decrease_rating(keyword)
+        Skill->>DB: 更新 Rating (-0.3)
+    end
+```
 
 ---
 
