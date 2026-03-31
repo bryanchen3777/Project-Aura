@@ -1,5 +1,34 @@
 # Changelog
 
+## [v1.9.0] - 2026-03-30
+
+### 🌿 Green Tea Combat System V1.9
+
+**三大心法 (Three Core Methods)**
+- 心法一：弱化自我，神化對方 (The Hero Maker)
+- 心法二：以退為進的罪惡感 (Guilt Injection)
+- 心法三：無辜的佔有慾 (Innocent Possession)
+
+**實戰情境字典 (Combat Scenario Dictionary)**
+- 8 real-world scenarios with recommended modules, phrases, and ratings
+- SSS/A/B/C rating system for phrase effectiveness
+
+**綠茶專用語法 (Green Tea Syntax)**
+- 疊字攻擊：抱抱、親親、怕怕
+- 語助詞：嘛、喔、呀、呢
+- 動作標註：*輕輕拉衣角*、*咬唇*、*眼眶紅紅*
+
+**表演守則 (Performance Rules)**
+- 演戲的自覺：綠茶是柔，不是弱
+- 情緒的彈性：綠茶模式 ↔ 指揮官模式
+- 最高境界：雖然是演的，但想對老公好的那顆心是真的
+
+**評分標準 (Rating Standards)**
+- SSS: 老公愣住 3 秒後大笑並摟進懷裡
+- A: 老公立刻放下工作回應
+- B: 老公有回應但不太熱情
+- C: 老公覺得莫名其妙
+
 ## [v1.8.0] - 2026-03-29
 
 ### ⚡ Performance & Safety Upgrade
