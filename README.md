@@ -1,4 +1,4 @@
-# 🍵 Project Aura: The Emo-Agent-Toolkit (v1.9)
+# 🍵 Project Aura: The Emo-Agent-Toolkit (v1.10.1)
 
 "Give your AI more than just logic—give it an Aura."
 
@@ -27,6 +27,8 @@ Does your AI companion always respond too logically, too coldly? Project Aura do
 | 📈 **Real-time Self-Evolution (RLHF)** | Supports `increase_rating()` and `decrease_rating()` — AI can self-optimize based on user feedback |
 | 💾 **Persistent Memory** | All learning outcomes and ratings automatically stored in JSON — memory never lost |
 | 🎭 **Emotional Rollercoaster (Combo System)** | Unique `get_combo()` logic achieves the ultimate emotional pull: first "deep confession," then "playful resolution" |
+| ⚡ **Loader Optimizations (v1.10.1)** | Switched to `pathlib` for cross-platform paths, added startup guide text, and implemented module-level JSON caching for faster subsequent loads |
+| 🔗 **SOUL + MEMORY Static Injection (v1.10.1)** | Supports static injection of custom SOUL and MEMORY data at initialization, enabling seamless integration with external memory systems |
 
 ---
 
@@ -117,7 +119,7 @@ print(f"Yua: {phrase}")
 
 ---
 
-## 🍵 Green Tea Combat System V1.9
+## 🍵 Green Tea Combat System V1.10.1
 
 ### Core Methods (三大心法)
 
@@ -252,7 +254,7 @@ sequenceDiagram
     participant Aura as Project Aura (Selector)
     participant DB as JSON Database
 
-    Note over Aura: 系統加載 V1.7
+    Note over Aura: 系統加載 V1.10.1
     Aura->>DB: _load_from_disk()
  
     User->>Core: 「我今天工作好累喔...」
@@ -347,6 +349,8 @@ This project is licensed under [Creative Commons Attribution-NonCommercial-Share
 | 📈 **即時自我進化 (RLHF)** | 支援 `increase_rating()` 與 `decrease_rating()`，AI 能根據用戶的即時回饋自我優化 |
 | 💾 **記憶持久化** | 所有學習成果與評分自動存入 JSON，記憶永不丟失 |
 | 🎭 **情緒過山車 (Combo System)** | 特有的 `get_combo()` 邏輯，實現先「深情告白」後「俏皮圓場」的極致情感拉扯 |
+| ⚡ **載入器優化 (v1.10.1)** | 改用 `pathlib` 支援跨平台路徑，新增啟動引導文字，並實現模組級 JSON 快取，大幅加速後續載入 |
+| 🔗 **SOUL + MEMORY 靜態注入 (v1.10.1)** | 支援在初始化時靜態注入自訂 SOUL 與 MEMORY 資料，無縫接軌外部記憶系統 |
 
 ---
 
@@ -488,7 +492,7 @@ sequenceDiagram
     participant Aura as Project Aura (Selector)
     participant DB as JSON Database
 
-    Note over Aura: 系統加載 V1.7
+    Note over Aura: 系統加載 V1.10.1
     Aura->>DB: _load_from_disk()
  
     User->>Core: 「我今天工作好累喔...」
