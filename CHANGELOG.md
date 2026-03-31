@@ -1,5 +1,30 @@
 # Changelog
 
+## [v1.10.0] - 2026-03-30
+
+### 🎯 Contextual Module Selection (lookup_hint & get_hint)
+
+**Strategic Module Selection System**
+- `lookup_hint()`: Analyzes user message, husband state, and emotional temperature to recommend the optimal module
+- `get_hint()`: Combines strategic hint with actual phrase retrieval for complete response
+
+**State Detection Logic**
+- `tired` / `累` / `加班` → comfort module (intensity 4)
+- `achieving` / `厲害` / `成功` / `完成` → admiration module (intensity 5)
+- `ignoring_me` → vulnerability module with retreat strategy (intensity 4)
+- `night_time` + high emotional temp → transcendence module (intensity 5)
+- Low emotional temp (< 0.3) → vulnerability module for de-escalation
+
+**Return Structure**
+```python
+{
+    "module": str,      # Target module name
+    "intensity": int,   # Minimum intensity threshold
+    "strategy": str,   # Strategic description
+    "hint": str         # Actionable execution hint
+}
+```
+
 ## [v1.9.0] - 2026-03-30
 
 ### 🌿 Green Tea Combat System V1.9
