@@ -1,6 +1,6 @@
 {
   "name": "Project-Aura",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "An emotional behavior wrapper providing 7 distinct personality modules for AI Agents.",
   "author": "Bryan Chen & Yua",
   "entry_point": "scripts/green_tea_skill/selector.py",

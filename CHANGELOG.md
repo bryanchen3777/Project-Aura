@@ -1,5 +1,26 @@
 # Changelog
 
+## [v1.10.1] - 2026-03-31
+
+### ⚡ Optimized loader.py - SOUL + MEMORY Injection
+
+**Performance & Reliability Enhancements**
+- `pathlib.Path` for cross-platform path handling (replaces `os.path`)
+- Environment variable `OPENCLAW_WORKSPACE` override support
+- Section guide text with blockquote formatting for each file
+- **Caching mechanism**: `_cached_instructions` + `_cache_timestamp` for performance
+- `invalidate_cache()`: Force reload after `/sync_soul` triggers
+- `get_cache_status()`: Debug visibility into cache state
+- `get_soul_only()` / `get_memory_only()`: Individual file reads (bypass cache)
+- Robust error handling per file with user-friendly error messages
+
+**Architecture**
+```
+SOUL.md + MEMORY.md → [Cache Check] → Combined → System Prompt
+                                         ↑
+                          invalidate_cache() clears
+```
+
 ## [v1.10.0] - 2026-03-30
 
 ### 🎯 Contextual Module Selection (lookup_hint & get_hint)
